@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Payment Manager{% endblock %}</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
 
+<body>
+
+<header class="topbar">
+    <div>
+        <h2>Payment Manager</h2>
+        <small>Team Payment Management System</small>
+    </div>
+
+    {% if session.get("user_id") %}
+    <a href="{{ url_for('main.logout') }}" class="logout">
+        Logout
+    </a>
+    {% endif %}
+</header>
+
+<nav class="nav">
+    {% if session.get("user_id") %}
+        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('main.companies') }}">Companies</a>
+        <a href="{{ url_for('main.payment') }}">Payment</a>
+        <a href="{{ url_for('main.team') }}">Team</a>
+        <a href="{{ url_for('main.settings') }}">Settings</a>
+    {% endif %}
+</nav>
+
+<main class="container">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+</main>
+
+<footer>
+    Software Developed by Arslan.Ak |
+    Contact: 03200199895
+</footer>
+
+</body>
+</html>
