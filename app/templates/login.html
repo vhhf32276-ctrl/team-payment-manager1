@@ -1,1 +1,42 @@
+{% extends "base.html" %}
 
+{% block title %}Login - Payment Manager{% endblock %}
+
+{% block content %}
+
+<div class="login-box">
+
+    <h1>Team Payment Manager</h1>
+    <p>Login to continue</p>
+
+    <form method="POST" action="{{ url_for('main.do_login') }}">
+
+        <label>Username</label>
+        <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+        >
+
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+        >
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <div class="login-help">
+        <small>Default admin: admin / admin123</small>
+    </div>
+
+</div>
+
+{% endblock %}
