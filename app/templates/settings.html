@@ -1,1 +1,58 @@
+{% extends "base.html" %}
 
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Settings</h1>
+        <p>Business aur report ki information manage karein.</p>
+    </div>
+</div>
+
+<div class="form-box">
+
+    <form method="POST">
+
+        <label>Business Name</label>
+        <input
+            type="text"
+            name="business_name"
+            value="{{ settings['business_name'] }}"
+            placeholder="Business name"
+            required
+        >
+
+        <label>Report Title</label>
+        <input
+            type="text"
+            name="report_title"
+            value="{{ settings['report_title'] }}"
+            placeholder="Report title"
+        >
+
+        <label>Phone</label>
+        <input
+            type="text"
+            name="phone"
+            value="{{ settings['phone'] }}"
+            placeholder="Contact number"
+        >
+
+        <label>Footer</label>
+        <textarea
+            name="footer"
+            rows="4"
+            placeholder="Footer text"
+        >{{ settings['footer'] }}</textarea>
+
+        <button type="submit">
+            Save Settings
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
