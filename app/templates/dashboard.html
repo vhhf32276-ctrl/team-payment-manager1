@@ -1,1 +1,120 @@
+{% extends "base.html" %}
 
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p>Daily payment overview</p>
+    </div>
+
+    <a href="{{ url_for('main.payment') }}" class="btn">
+        + Add Payment
+    </a>
+</div>
+
+<form method="GET" class="date-form">
+    <label>Select Date</label>
+    <input type="date" name="date" value="{{ selected_date }}">
+    <button type="submit">View</button>
+</form>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Expected Pay</h3>
+        <strong>{{ "%.2f"|format(expected) }}</strong>
+    </div>
+
+    <div class="card">
+        <h3>Paid</h3>
+        <strong>{{ "%.2f"|format(paid) }}</strong>
+    </div>
+
+    <div class="card">
+        <h3>Difference</h3>
+        <strong>{{ "%.2f"|format(difference) }}</strong>
+    </div>
+
+</div>
+
+<div class="table-box">
+
+    <h2>Payments — {{ selected_date }}</h2>
+
+    {% if payments %}
+
+    <div class="table-wrap">
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Expected</th>
+                    <th>Paid</th>
+                    <th>Difference</th>
+                    <th>Note</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for payment in payments %}
+
+                <tr>
+
+                    <td>
+                        {{ payment["company_name"] or "N/A" }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(payment["expected"]) }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(payment["paid"]) }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(payment["paid"] - payment["expected"]) }}
+                    </td>
+
+                    <td>
+                        {{ payment["note"] or "-" }}
+                    </td>
+
+                    <td>
+                        <a
+                            href="{{ url_for(
+                                'main.edit_payment',
+                                payment_id=payment['id']
+                            ) }}"
+                            class="edit-btn"
+                        >
+                            Edit
+                        </a>
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    {% else %}
+
+        <div class="empty">
+            Is date ke liye koi payment record nahi hai.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
