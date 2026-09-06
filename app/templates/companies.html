@@ -1,1 +1,127 @@
+{% extends "base.html" %}
 
+{% block title %}Companies{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Companies</h1>
+        <p>Add companies and weekly payment settings.</p>
+    </div>
+</div>
+
+<div class="form-box">
+
+    <h2>Add Company</h2>
+
+    <form method="POST">
+
+        <label>Company Name</label>
+        <input
+            type="text"
+            name="name"
+            placeholder="Company name"
+            required
+        >
+
+        <label>Expected Amount</label>
+        <input
+            type="number"
+            name="expected_amount"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+            required
+        >
+
+        <label class="check-row">
+            <input type="checkbox" name="weekly">
+            Weekly Company
+        </label>
+
+        <label>Weekly Day</label>
+        <select name="weekday">
+            <option value="0">Monday</option>
+            <option value="1">Tuesday</option>
+            <option value="2">Wednesday</option>
+            <option value="3">Thursday</option>
+            <option value="4">Friday</option>
+            <option value="5">Saturday</option>
+            <option value="6">Sunday</option>
+        </select>
+
+        <button type="submit">
+            Add Company
+        </button>
+
+    </form>
+
+</div>
+
+<div class="table-box">
+
+    <h2>Company List</h2>
+
+    {% if companies %}
+
+    <div class="table-wrap">
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Expected</th>
+                    <th>Type</th>
+                    <th>Day</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for company in companies %}
+
+                <tr>
+
+                    <td>{{ company["name"] }}</td>
+
+                    <td>
+                        {{ "%.2f"|format(company["expected_amount"]) }}
+                    </td>
+
+                    <td>
+                        {% if company["weekly"] %}
+                            Weekly
+                        {% else %}
+                            Custom
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if company["weekly"] %}
+                            {{ ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][company["weekday"]] }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    {% else %}
+
+        <div class="empty">
+            Abhi koi company add nahi hui.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
