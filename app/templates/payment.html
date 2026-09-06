@@ -1,1 +1,94 @@
+{% extends "base.html" %}
 
+{% block title %}
+    {% if payment %}Edit Payment{% else %}Add Payment{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>
+            {% if payment %}
+                Edit Payment
+            {% else %}
+                Add Payment
+            {% endif %}
+        </h1>
+        <p>Payment details enter karein.</p>
+    </div>
+</div>
+
+<div class="form-box">
+
+    <form method="POST">
+
+        <label>Company</label>
+
+        <select name="company_id" required>
+            {% for company in companies %}
+                <option
+                    value="{{ company['id'] }}"
+                    {% if payment and payment['company_id'] == company['id'] %}
+                        selected
+                    {% endif %}
+                >
+                    {{ company['name'] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Payment Date</label>
+
+        <input
+            type="date"
+            name="payment_date"
+            value="{{ payment['payment_date'] if payment else today }}"
+            required
+        >
+
+        <label>Expected Amount</label>
+
+        <input
+            type="number"
+            name="expected"
+            step="0.01"
+            min="0"
+            value="{{ payment['expected'] if payment else '' }}"
+            placeholder="0.00"
+            required
+        >
+
+        <label>Paid Amount</label>
+
+        <input
+            type="number"
+            name="paid"
+            step="0.01"
+            min="0"
+            value="{{ payment['paid'] if payment else '' }}"
+            placeholder="0.00"
+            required
+        >
+
+        <label>Note</label>
+
+        <textarea
+            name="note"
+            rows="4"
+            placeholder="Optional note"
+        >{{ payment['note'] if payment else '' }}</textarea>
+
+        <button type="submit">
+            {% if payment %}
+                Update Payment
+            {% else %}
+                Save Payment
+            {% endif %}
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
